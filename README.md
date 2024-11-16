@@ -1,5 +1,12 @@
 # LoggerV2
 
+[![npm version](https://img.shields.io/npm/v/loggerv2?style=flat-square)](https://www.npmjs.com/package/loggerv2)
+[![npm version](https://img.shields.io/badge/dynamic/json?url=https://packagephobia.com/v2/api.json?p=loggerv2&query=$.install.pretty&label=install%20size&style=flat-square)](https://www.npmjs.com/package/loggerv2)
+
+
+Repo: http://github.com/quirkey/node-logger
+
+
 LoggerV2 is a lightweight and flexible Node.js utility for interactive logging, pausing execution, and saving data during debugging. It offers features like depth control, colorized output, and interactive commands for skipping or saving data to JSON files.
 
 > ⚠️ **Warning:**  
