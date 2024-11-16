@@ -4,7 +4,7 @@
   "description": "Console.log but better hopefully ",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "jest tests/test.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   },
   "homepage": "https://github.com/leonatkdev/LoggerV2#readme",
   "author": "Leonatkdev",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
