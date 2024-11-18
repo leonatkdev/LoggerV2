@@ -4,7 +4,8 @@
   "description": "Console.log but better hopefully ",
   "main": "index.js",
   "scripts": {
-    "test": "jest tests/test.js"
+    "test": "jest tests/test.js",
+    "example": "node examples/basic.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,9 @@
   "license": "MIT",
   "devDependencies": {
     "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "prompt-sync": "^4.2.0",
+    "prompt-sync-history": "^1.0.1"
   }
 }
