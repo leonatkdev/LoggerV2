@@ -1,7 +1,8 @@
-const readline = require("readline");
-const fs = require("fs");
-const path = require("path");
-const prompt = require("prompt-sync")();
+const isNode = typeof process !== "undefined" && process.versions && process.versions.node;
+const readline = isNode ? require("readline") : null;
+const fs = isNode ? require("fs") : null;
+const path = isNode ? require("path") : null;
+const prompt = isNode ? require("prompt-sync")() : null;
 
 const log = (data, options = {}) => {
   const { depth = null, colors = true } = options;
@@ -9,6 +10,10 @@ const log = (data, options = {}) => {
 };
 
 const pauseAsync = () => {
+  if (!isNode) {
+    throw new Error("pauseAsync can only be used in a Node.js environment.");
+  }
+
   let skipLogs = false;
 
   return function handleSkip(
@@ -63,6 +68,10 @@ const pauseAsync = () => {
 };
 
 const pauseStatic = () => {
+  if (!isNode) {
+    throw new Error("pauseStatic can only be used in a Node.js environment.");
+  }
+
   let skipLogs = false;
 
   return function handleSkip(
