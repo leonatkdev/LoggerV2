@@ -4,7 +4,8 @@
   "description": "Console.log but better hopefully ",
   "main": "index.js",
   "scripts": {
-    "test": "jest tests/test.js"
+    "test": "jest tests/test.js",
+    "example": "node examples/basic.js"
   },
   "repository": {
     "type": "git",

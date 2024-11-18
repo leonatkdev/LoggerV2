@@ -1,62 +1,110 @@
-const readline = require('readline');
-const fs = require('fs');
-const path = require('path');
-const prompt = require('prompt-sync')(); // For synchronous input
+const readline = require("readline");
+const fs = require("fs");
+const path = require("path");
+const prompt = require("prompt-sync")();
 
-class LoggerV2 {
-  static log(data, options = {}) {
-    const { depth = null, colors = true } = options;
-    console.dir(data, { depth, colors });
-  }
+const log = (data, options = {}) => {
+  const { depth = null, colors = true } = options;
+  console.dir(data, { depth, colors });
+};
 
-  // Async pause method
-  static pauseAsync(message = 'Press Enter to continue (s to skip, q to quit, j to save to JSON)...', data) {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
+const pauseAsync = () => {
+  let skipLogs = false;
 
-    return new Promise((resolve, reject) => {
-      rl.question(message, (input) => {
-        rl.close();
-        const userInput = input.toLowerCase();
-
-        if (userInput === 's') {
-          resolve('skip');
-        } else if (userInput === 'q') {
-          reject(new Error('User quit the process.'));
-        } else if (userInput === 'j') {
-          if (data) {
-            const filename = `log-output-${Date.now()}.json`;
-            const filePath = path.resolve(process.cwd(), filename);
-            fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
-            console.log(`Data saved to ${filePath}`);
-            resolve('json_saved');
-          } else {
-            console.log('No data available to save.');
-            resolve();
-          }
-        } else {
-          resolve();
-        }
-      });
-    });
-  }
-
-  // Synchronous pause method
-  static pauseStatic(message = 'Press Enter to continue or type "s" to skip...') {
-    try {
-      const input = prompt(message).trim().toLowerCase(); // Get user input
-      if (input === 's') {
-        console.log('Skipping...');
-        return 'skip'; // Return a specific value to indicate skipping
-      }
-      return 'continue'; // Return a specific value to indicate continuation
-    } catch (error) {
-      console.error('Synchronous pause is unavailable in this environment.');
-      return 'error'; // Indicate an error state
+  return function handleSkip(
+    data = null
+  ) {
+    if (skipLogs) {
+      return { action: "continue", skipLogs };
     }
-  }
-}
 
-module.exports = LoggerV2;
+    return new Promise((resolve) => {
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+
+      const keyListener = (chunk) => {
+        const input = chunk.toString().trim().toLowerCase();
+
+        if (input === "s") {
+          console.log("Skipping this key...");
+          cleanup();
+          resolve({ action: "skip", skipLogs });
+        } else if (input === "a") {
+          console.log("Skipping further logs...");
+          skipLogs = true;
+          cleanup();
+          resolve({ action: "continue", skipLogs });
+        } else if (input === "j" && data) {
+          const fileName = `log-${Date.now()}.json`;
+          const filePath = path.resolve(process.cwd(), fileName);
+          fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+          console.log(`Data saved to ${filePath}`);
+          return { action: "json", skipLogs };
+        } else if (input === "") {
+          cleanup();
+          resolve({ action: "continue", skipLogs });
+        } else {
+          console.log(
+            `Unknown input: "${input}". Please press "Enter", "s", or "a".`
+          );
+        }
+      };
+
+      const cleanup = () => {
+        process.stdin.off("data", keyListener);
+        rl.close();
+      };
+
+      process.stdin.on("data", keyListener);
+    });
+  };
+};
+
+const pauseStatic = () => {
+  let skipLogs = false;
+
+  return function handleSkip(
+    data = null
+  ) {
+    if (skipLogs) {
+      return { action: "continue", skipLogs };
+    }
+
+    const input = prompt(
+      'Press "Enter" to continue, "s" to skip, "a" to skip logging, or "j" to save as JSON...'
+    ).trim().toLowerCase();
+
+    if (input === "s") {
+      console.log("Skipping this key...");
+      return { action: "skip", skipLogs };
+    }
+
+    if (input === "a") {
+      console.log("Skipping further logs...");
+      skipLogs = true;
+      return { action: "continue", skipLogs };
+    }
+
+    if (input === "j" && data) {
+      const fileName = `log-${Date.now()}.json`;
+      const filePath = path.resolve(process.cwd(), fileName);
+      fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+      console.log(`Data saved to ${filePath}`);
+      return { action: "json", skipLogs };
+    }
+
+    if (input === "") {
+      return { action: "continue", skipLogs };
+    }
+
+    console.log(
+      `Unknown input: "${input}". Please press "Enter", "s", "a", or "j".`
+    );
+    return { action: "invalid", skipLogs };
+  };
+};
+
+// Export named methods
+module.exports = { log, pauseAsync, pauseStatic };
