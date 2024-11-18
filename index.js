@@ -1,15 +1,16 @@
 const readline = require('readline');
 const fs = require('fs');
 const path = require('path');
+const prompt = require('prompt-sync')(); // For synchronous input
 
 class LoggerV2 {
   static log(data, options = {}) {
     const { depth = null, colors = true } = options;
     console.dir(data, { depth, colors });
-  } 
-  
-  
-  static pause(message = 'Press Enter to continue (s to skip, q to quit, j to save to JSON)...', data) {
+  }
+
+  // Async pause method
+  static pauseAsync(message = 'Press Enter to continue (s to skip, q to quit, j to save to JSON)...', data) {
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -40,6 +41,21 @@ class LoggerV2 {
         }
       });
     });
+  }
+
+  // Synchronous pause method
+  static pauseStatic(message = 'Press Enter to continue or type "s" to skip...') {
+    try {
+      const input = prompt(message).trim().toLowerCase(); // Get user input
+      if (input === 's') {
+        console.log('Skipping...');
+        return 'skip'; // Return a specific value to indicate skipping
+      }
+      return 'continue'; // Return a specific value to indicate continuation
+    } catch (error) {
+      console.error('Synchronous pause is unavailable in this environment.');
+      return 'error'; // Indicate an error state
+    }
   }
 }
 
