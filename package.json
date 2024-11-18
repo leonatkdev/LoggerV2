@@ -1,8 +1,12 @@
 {
   "name": "loggerv2",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Console.log but better hopefully ",
   "main": "index.js",
+  "engines": {
+    "node": ">=14"
+  },
+  "keywords": ["logger", "utility", "node"],
   "scripts": {
     "test": "jest tests/test.js",
     "example": "node examples/basic.js"
