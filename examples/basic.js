@@ -1,4 +1,4 @@
-const LoggerV2 = require("../index");
+import { log, pauseAsync, pauseStatic } from "../index.mjs";
 
 // Items to process
 const items = (type) => [
@@ -7,82 +7,85 @@ const items = (type) => [
   { id: 3, name: `Item 3 ${type}`, details: { value: 300 } },
 ];
 
-// Async version of item processing
-async function processItemsAsync(items) {
-  const handleSkip = LoggerV2.pauseAsync(); // Create the async handler function
-
-  for (const item of items) {
-    console.log(`Ready to process item with id: ${item.id}`);
-    const { action, skipLogs } = await handleSkip(
-      item
-    );
-
-    if (!skipLogs) {
-      LoggerV2.log(item); // Log the current item if logging is not skipped
-    }
-
-    if (action === "skip") {
-      console.log(`Skipping processing for item with id: ${item.id}`);
-      continue; // Skip further processing for this item
-    }
-
-    if (action === "json") {
-      console.log(`Item with id: ${item.id} saved to JSON.`);
-      continue; // Continue to the next item after saving
-    }
-
-    console.log(`Processing item with id: ${item.id}`);
-    // Simulate further processing
-  }
-
-  console.log("All items processed!");
-}
+log(items("Test"))
 
 
-// Call async version
-processItemsAsync(items("Async"));
+// // Async version of item processing
+// async function processItemsAsync(items) {
+//   const handleSkip = LoggerV2.pauseAsync(); // Create the async handler function
 
-// --------------------------- //
+//   for (const item of items) {
+//     console.log(`Ready to process item with id: ${item.id}`);
+//     const { action, skipLogs } = await handleSkip(
+//       item
+//     );
 
-// // Non-async version using recursion
-function processItems(items) {
-  const handleSkip = LoggerV2.pauseStatic(); // Create the static handler function
+//     if (!skipLogs) {
+//       LoggerV2.log(item); // Log the current item if logging is not skipped
+//     }
 
-  for (const item of items) {
-    const { action, skipLogs } = handleSkip(
-      'Press "Enter" to continue, "s" to skip, "a" to skip logging, or "j" to save as JSON...',
-      item
-    );
+//     if (action === "skip") {
+//       console.log(`Skipping processing for item with id: ${item.id}`);
+//       continue; // Skip further processing for this item
+//     }
 
-    if (action === "invalid") {
-      console.log('Invalid input! Please try again.');
-      continue; // Skip to the next item without processing
-    }
+//     if (action === "json") {
+//       console.log(`Item with id: ${item.id} saved to JSON.`);
+//       continue; // Continue to the next item after saving
+//     }
 
-    if (!skipLogs) {
-      LoggerV2.log(item); // Log the current item if logging is not skipped
-    }
+//     console.log(`Processing item with id: ${item.id}`);
+//     // Simulate further processing
+//   }
 
-    if (action === "skip") {
-      console.log(`Skipping processing for item with id: ${item.id}`);
-      continue; // Skip further processing for this item
-    }
-
-    if (action === "json") {
-      console.log(`Item with id: ${item.id} saved to JSON.`);
-      continue; // Continue to the next item after saving
-    }
-
-    console.log(`Processing item with id: ${item.id}`);
-    // Simulate further processing
-  }
-
-  console.log("Finished processing all items.");
-}
+//   console.log("All items processed!");
+// }
 
 
+// // Call async version
+// processItemsAsync(items("Async"));
 
-// Call non-async version
-processItems(items("Static"));
+// // --------------------------- //
+
+// // // Non-async version using recursion
+// function processItems(items) {
+//   const handleSkip = LoggerV2.pauseStatic(); // Create the static handler function
+
+//   for (const item of items) {
+//     const { action, skipLogs } = handleSkip(
+//       'Press "Enter" to continue, "s" to skip, "a" to skip logging, or "j" to save as JSON...',
+//       item
+//     );
+
+//     if (action === "invalid") {
+//       console.log('Invalid input! Please try again.');
+//       continue; // Skip to the next item without processing
+//     }
+
+//     if (!skipLogs) {
+//       LoggerV2.log(item); // Log the current item if logging is not skipped
+//     }
+
+//     if (action === "skip") {
+//       console.log(`Skipping processing for item with id: ${item.id}`);
+//       continue; // Skip further processing for this item
+//     }
+
+//     if (action === "json") {
+//       console.log(`Item with id: ${item.id} saved to JSON.`);
+//       continue; // Continue to the next item after saving
+//     }
+
+//     console.log(`Processing item with id: ${item.id}`);
+//     // Simulate further processing
+//   }
+
+//   console.log("Finished processing all items.");
+// }
+
+
+
+// // Call non-async version
+// processItems(items("Static"));
 
 

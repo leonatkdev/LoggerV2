@@ -2,14 +2,22 @@
   "name": "loggerv2",
   "version": "0.0.4",
   "description": "Console.log but better hopefully ",
-  "main": "index.js",
+  "main": "index.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.cjs"
+    }
+  },
   "engines": {
     "node": ">=14"
   },
   "keywords": ["logger", "utility", "node"],
   "scripts": {
     "test": "jest tests/test.js",
-    "example": "node examples/basic.js"
+    "example": "node examples/basic.js",
+    "docs": "jsdoc yourFile.js -d docs"
   },
   "repository": {
     "type": "git",
