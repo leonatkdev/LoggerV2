@@ -55,6 +55,3 @@ export const pauseStatic = () => {
     return { action: "invalid", skipLogs };
   };
 };
-
-
-// module.exports =  pauseStatic 

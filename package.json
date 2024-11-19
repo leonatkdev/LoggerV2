@@ -2,7 +2,7 @@
   "name": "loggerv2",
   "version": "0.0.4",
   "description": "Console.log but better hopefully ",
-  "main": "index.ts",
+  "main": "index.cjs",
   "type": "module",
   "exports": {
     ".": {

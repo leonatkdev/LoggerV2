@@ -7,49 +7,40 @@ const items = (type) => [
   { id: 3, name: `Item 3 ${type}`, details: { value: 300 } },
 ];
 
-log(items("Test"))
+// log(items("Test"), {colors: true})
 
 
 // // Async version of item processing
-// async function processItemsAsync(items) {
-//   const handleSkip = LoggerV2.pauseAsync(); // Create the async handler function
+async function processItemsAsync(items) {
+  const handleSkip = pauseAsync(); // Create the async handler function
 
-//   for (const item of items) {
-//     console.log(`Ready to process item with id: ${item.id}`);
-//     const { action, skipLogs } = await handleSkip(
-//       item
-//     );
+  for (const item of items) {
+    const { action } = await handleSkip(item, { depth: 2, colors: true });
 
-//     if (!skipLogs) {
-//       LoggerV2.log(item); // Log the current item if logging is not skipped
-//     }
+    if (action === "skip") {
+      continue; // Skip further processing for this item
+    }
 
-//     if (action === "skip") {
-//       console.log(`Skipping processing for item with id: ${item.id}`);
-//       continue; // Skip further processing for this item
-//     }
+    if (action === "json") {
+      continue; // Continue to the next item after saving
+    }
 
-//     if (action === "json") {
-//       console.log(`Item with id: ${item.id} saved to JSON.`);
-//       continue; // Continue to the next item after saving
-//     }
+    // console.log(`Processing item with id: ${item.id}`);
+    // Simulate further processing
+  }
 
-//     console.log(`Processing item with id: ${item.id}`);
-//     // Simulate further processing
-//   }
-
-//   console.log("All items processed!");
-// }
+  console.log("All items processed!");
+}
 
 
-// // Call async version
-// processItemsAsync(items("Async"));
+// Call async version
+processItemsAsync(items("Async"));
 
 // // --------------------------- //
 
-// // // Non-async version using recursion
+// // Non-async version using recursion
 // function processItems(items) {
-//   const handleSkip = LoggerV2.pauseStatic(); // Create the static handler function
+//   const handleSkip = pauseStatic(); // Create the static handler function
 
 //   for (const item of items) {
 //     const { action, skipLogs } = handleSkip(
@@ -63,7 +54,7 @@ log(items("Test"))
 //     }
 
 //     if (!skipLogs) {
-//       LoggerV2.log(item); // Log the current item if logging is not skipped
+//       log(item); // Log the current item if logging is not skipped
 //     }
 
 //     if (action === "skip") {
