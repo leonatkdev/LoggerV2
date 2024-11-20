@@ -27,6 +27,7 @@ export const log = (data, options = {}) => {
       } catch (error) {
         console.error("Failed to save data to JSON file:", error.message);
       }
+      return;
     }
 
     // Log to the console

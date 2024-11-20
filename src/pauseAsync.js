@@ -20,7 +20,8 @@ export const pauseAsync = () => {
     throw new Error("pauseAsync can only be used in a Node.js environment.");
   }
 
-  let skipLogs = false;
+  let skipLogs = false; // Track whether logs should be skipped
+  // let promptDisplayed = false; // Track whether the prompt text has been shown
 
   /**
    * Handles user input, logging, and actions for the current item.
@@ -45,33 +46,32 @@ export const pauseAsync = () => {
         output: process.stdout,
       });
 
-      rl.question(
-        'Press "Enter" to continue, "s" to skip, "a" to skip logging, or "j" to save as JSON...',
-        (input) => {
-          const key = input.trim().toLowerCase();
+      // Show the prompt text only once
+      // if (!promptDisplayed) {
+        console.log('Press "Enter" to continue, "s" skip loggings, or "j" to save as JSON...');
+        // promptDisplayed = true; // Set the flag to true
+      // }
 
-          if (key === "s") {
-            console.log("Skipping this key...");
-            rl.close();
-            resolve({ action: "skip" });
-          } else if (key === "a") {
-            console.log("Skipping further logs...");
-            skipLogs  = true;
-            rl.close();
-            resolve({ action: "continue" });
-          } else if (key === "j" && data) {
-            const fileName = `log-${Date.now()}.json`;
-            const filePath = path.resolve(process.cwd(), fileName);
-            fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-            console.log(`Data saved to ${filePath}`);
-            rl.close();
-            resolve({ action: "json" });
-          } else {
-            rl.close();
-            resolve({ action: "continue" });
-          }
+      rl.question("", (input) => {
+        const key = input.trim().toLowerCase();
+
+       if (key === "s") {
+          console.log("Skipping All logs...");
+          skipLogs = true;
+          rl.close();
+          resolve({ action: "continue" });
+        } else if (key === "j" && data) {
+          const fileName = `log-${Date.now()}.json`;
+          const filePath = path.resolve(process.cwd(), fileName);
+          fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+          console.log(`Data saved to ${filePath}`);
+          rl.close();
+          resolve({ action: "json" });
+        } else {
+          rl.close();
+          resolve({ action: "continue" });
         }
-      );
+      });
     });
   };
 };

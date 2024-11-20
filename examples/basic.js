@@ -1,4 +1,4 @@
-import { log, pauseAsync, pauseStatic } from "../index.mjs";
+import { log, pauseAsync, pauseStatic, processAsync, processStatic } from "../index.mjs";
 
 // Items to process
 const items = (type) => [
@@ -7,76 +7,73 @@ const items = (type) => [
   { id: 3, name: `Item 3 ${type}`, details: { value: 300 } },
 ];
 
-// log(items("Test"), {colors: true})
+// Test log function
+console.log("Testing log function...");
+log(items("Test"), { depth: 2, colors: true });
+console.log("Log function tested successfully!");
 
+console.log("Testing save as file log function...");
+log(items("Test"), { saveAsJson: true, depth: 2, colors: true });
+console.log("Log function save as file successfully!");
 
-// // Async version of item processing
-async function processItemsAsync(items) {
+// Async version of item processing
+async function testPauseAsync() {
+  console.log("\nTesting pauseAsync function...");
   const handleSkip = pauseAsync(); // Create the async handler function
 
-  for (const item of items) {
+  for (const item of items("Async")) {
     const { action } = await handleSkip(item, { depth: 2, colors: true });
 
-    if (action === "skip") {
-      continue; // Skip further processing for this item
-    }
-
     if (action === "json") {
+      console.log(`Item with id: ${item.id} saved to JSON.`);
       continue; // Continue to the next item after saving
     }
-
-    // console.log(`Processing item with id: ${item.id}`);
-    // Simulate further processing
   }
 
-  console.log("All items processed!");
+  console.log("pauseAsync function tested successfully!");
 }
 
+// Non-async version of item processing
+function testPauseStatic() {
+  console.log("\nTesting pauseStatic function...");
+  const handleSkip = pauseStatic(); // Create the static handler function
 
-// Call async version
-processItemsAsync(items("Async"));
+  for (const item of items("Static")) {
+    const { action } = handleSkip(item);
 
-// // --------------------------- //
+    if (action === "json") {
+      console.log(`Item with id: ${item.id} saved to JSON.`);
+      continue; // Continue to the next item after saving
+    }
+  }
 
-// // Non-async version using recursion
-// function processItems(items) {
-//   const handleSkip = pauseStatic(); // Create the static handler function
+  console.log("pauseStatic function tested successfully!");
+}
 
-//   for (const item of items) {
-//     const { action, skipLogs } = handleSkip(
-//       'Press "Enter" to continue, "s" to skip, "a" to skip logging, or "j" to save as JSON...',
-//       item
-//     );
+// Test processAsync
+async function testProcessAsync() {
+  console.log("\nTesting processAsync function...");
+  await processAsync(items("Async Processing"), { depth: 2, colors: true });
+  console.log("processAsync function tested successfully!");
+}
 
-//     if (action === "invalid") {
-//       console.log('Invalid input! Please try again.');
-//       continue; // Skip to the next item without processing
-//     }
+// Test processStatic
+function testProcessStatic() {
+  console.log("\nTesting processStatic function...");
+  processStatic(items("Static Processing"), { depth: 2, colors: true });
+  console.log("processStatic function tested successfully!");
+}
 
-//     if (!skipLogs) {
-//       log(item); // Log the current item if logging is not skipped
-//     }
-
-//     if (action === "skip") {
-//       console.log(`Skipping processing for item with id: ${item.id}`);
-//       continue; // Skip further processing for this item
-//     }
-
-//     if (action === "json") {
-//       console.log(`Item with id: ${item.id} saved to JSON.`);
-//       continue; // Continue to the next item after saving
-//     }
-
-//     console.log(`Processing item with id: ${item.id}`);
-//     // Simulate further processing
-//   }
-
-//   console.log("Finished processing all items.");
-// }
-
-
-
-// // Call non-async version
-// processItems(items("Static"));
-
-
+// Run all tests
+(async () => {
+  try {
+    console.log("Running tests...");
+    await testPauseAsync();
+    testPauseStatic();
+    await testProcessAsync();
+    testProcessStatic();
+    console.log("\nAll tests completed successfully!");
+  } catch (error) {
+    console.error("An error occurred during testing:", error);
+  }
+})();
