@@ -20,6 +20,11 @@ if (!isNode) {
  * @param {boolean} [logOptions.colors=true] - Whether to display colors in the console output.
  */
 export const processStatic = (items, logOptions = { depth: null, colors: true }) => {
+  if (!Array.isArray(items)) {
+    throw new TypeError("processStatic: Expected 'data' to be an array.");
+  }
+
+
   let skipLogs = false;
 
   for (const item of items) {

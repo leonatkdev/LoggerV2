@@ -19,6 +19,10 @@ if (!isNode) {
  * @returns {Promise<void>}
  */
 export const processAsync = async (items, logOptions = { depth: null, colors: true }) => {
+  if (!Array.isArray(items)) {
+    throw new TypeError("processAsync: Expected 'data' to be an array.");
+  }
+
   let skipLogs = false;
 
   for (const item of items) {
