@@ -21,9 +21,11 @@ if (!isNode) {
  */
 export const processStatic = (items, logOptions = { depth: null, colors: true }) => {
   if (!Array.isArray(items)) {
-    throw new TypeError("processStatic: Expected 'data' to be an array.");
+    console.log(
+      "processStatic: Received an object instead of an array. If you intended to log the object, use the log function of the library.",
+    );
+    return; // Exit early as we can't process the input
   }
-
 
   let skipLogs = false;
 

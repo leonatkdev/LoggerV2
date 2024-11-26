@@ -1,6 +1,6 @@
 {
   "name": "loggerv2",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Console.log but better hopefully ",
   "main": "index.cjs",
   "type": "module",
