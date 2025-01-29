@@ -31,6 +31,7 @@ export const pauseAsync = () => {
    * @param {Object} [logOptions] - Options for logging.
    * @param {number|null} [logOptions.depth=null] - Specifies the depth of object inspection.
    * @param {boolean} [logOptions.colors=true] - Whether to display colors in the console output.
+   * @param {string} [logOptions.folderName="loggers-v2"] - Create a folder and save the logged files 
    * @returns {Promise<{action: string, skipLogs: boolean}>} - Action and skipLogs flag.
    */
   return function handleSkip(data, logOptions = { depth: null, colors: true }) {

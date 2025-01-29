@@ -28,6 +28,7 @@ export const pauseStatic = () => {
    *
    * @param {any} data - The data being processed.
    * @returns {{action: string, skipLogs: boolean}} - Action and skipLogs flag.
+   * * @param {string} [logOptions.folderName="loggers-v2"] - Create a folder and save the logged files 
    */
   return function handleSkip(data = null, logOptions = { depth: null, colors: true }) {
     if (skipLogs) {

@@ -16,6 +16,8 @@ if (!isNode) {
  * @param {Object} [logOptions] - Options for logging.
  * @param {number|null} [logOptions.depth=null] - Specifies the depth of object inspection.
  * @param {boolean} [logOptions.colors=true] - Whether to display colors in the console output.
+ * @param {string} [logOptions.folderName="loggers-v2"] - Create a folder and save the logged files 
+
  * @returns {Promise<void>}
  */
 export const processAsync = async (items, logOptions = { depth: null, colors: true }) => {

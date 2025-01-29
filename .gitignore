@@ -1,4 +1,5 @@
 node_modules
+loggers-v2
 npm-debug.log
 dist
 log-*.json

@@ -11,7 +11,8 @@ const isNode =
  * @param {number|null} [logOptions.depth=null] - Specifies the depth of object inspection.
  * @param {boolean} [logOptions.colors=true] - Whether to display colors in the console output.
  * @param {boolean} [logOptions.saveAsJson=false] - Whether to save the data to a JSON file.
- */
+ * @param {string} [logOptions.folderName="loggers-v2"] - Create a folder and save the logged files 
+*/
 
 export const log = (data, logOptions = {}) => {
   const {

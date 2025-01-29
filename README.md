@@ -52,8 +52,26 @@ const data = { id: 1, name: "Test Item" };
 log(data, { saveAsJson: true });
 
 // Terminal:
-// Data saved to /path/to/log-1732138956514.json
+// Data saved to /path/loggers-v2/log-1732138956514.json
 ```
+
+### **New Feature: Save Logs in Custom Folder**
+Specify a folder name for saving logs as JSON:
+```javascript
+import { log } from "loggerv2";
+
+// Example data
+const data = { id: 1, name: "Test Item" };
+
+// Save data in a custom folder
+log(data, { saveAsJson: true, folderName: "custom_logs" });
+
+// Terminal:
+// Data saved to /path/custom_logs/log-1732138956514.json
+```
+
+
+
 ### **3. Interactive Process with processAsync**
 Handle loops in asynchronous functions with interactive actions:
 ```javascript
@@ -182,3 +200,4 @@ Logging Options
 | depth         | number        | null     |  Sets the depth for object inspection.|
 | colors        | boolean       | true     |Enables or disables colored output.    |
 | saveAsJson    | boolean       | false    |Saves the logged data to a JSON file.  |
+| folderName    | string        | loggers-v2| Specifies the folder name for saved JSON files.  |
