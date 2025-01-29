@@ -1,6 +1,6 @@
-import fs from "fs";
-import path from "path";
 import promptSync from "prompt-sync";
+import saveAsJsonFunction from "../helpers/saveAsJson.mjs";
+
 
 const prompt = promptSync();
 
@@ -47,10 +47,7 @@ export const processStatic = (items, logOptions = { depth: null, colors: true })
 
     if (input === "j") {
       try {
-        const fileName = `log-${Date.now()}.json`;
-        const filePath = path.resolve(process.cwd(), fileName);
-        fs.writeFileSync(filePath, JSON.stringify(item, null, 2), "utf-8");
-        console.log(`Data saved to ${filePath}`);
+        saveAsJsonFunction(item, logOptions);
         continue; // Continue to the next item after saving
       } catch (error) {
         console.error("Error saving to JSON:", error.message);

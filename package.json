@@ -13,7 +13,11 @@
   "engines": {
     "node": ">=14"
   },
-  "keywords": ["logger", "utility", "node"],
+  "keywords": [
+    "logger",
+    "utility",
+    "node"
+  ],
   "scripts": {
     "test": "jest tests/test.js",
     "example": "node examples/basic.js",
@@ -34,6 +38,7 @@
   },
   "dependencies": {
     "prompt-sync": "^4.2.0",
-    "prompt-sync-history": "^1.0.1"
+    "prompt-sync-history": "^1.0.1",
+    "uuid": "^11.0.5"
   }
 }

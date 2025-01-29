@@ -1,6 +1,6 @@
 import readline from "readline";
-import fs from "fs";
-import path from "path";
+import saveAsJsonFunction from "../helpers/saveAsJson.mjs";
+
 
 const isNode =
   typeof process !== "undefined" && process.versions && process.versions.node;
@@ -51,10 +51,7 @@ export const processAsync = async (items, logOptions = { depth: null, colors: tr
           rl.close();
           resolve("skip");
         } else if (key === "j") {
-          const fileName = `log-${Date.now()}.json`;
-          const filePath = path.resolve(process.cwd(), fileName);
-          fs.writeFileSync(filePath, JSON.stringify(item, null, 2), "utf-8");
-          console.log(`Data saved to ${filePath}`);
+          saveAsJsonFunction(item, logOptions);
           rl.close();
           resolve("json");
         } else {

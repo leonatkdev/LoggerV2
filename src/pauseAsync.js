@@ -1,7 +1,8 @@
 import readline from "readline";
-import fs from "fs";
-import path from "path";
 import promptSync from "prompt-sync";
+import saveAsJsonFunction from "../helpers/saveAsJson.mjs";
+
+
 const prompt = promptSync();
 
 const isNode =
@@ -61,10 +62,7 @@ export const pauseAsync = () => {
           rl.close();
           resolve({ action: "continue" });
         } else if (key === "j" && data) {
-          const fileName = `log-${Date.now()}.json`;
-          const filePath = path.resolve(process.cwd(), fileName);
-          fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-          console.log(`Data saved to ${filePath}`);
+          saveAsJsonFunction(data, logOptions);
           rl.close();
           resolve({ action: "json" });
         } else {

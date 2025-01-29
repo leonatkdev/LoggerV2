@@ -1,4 +1,10 @@
-import { log, pauseAsync, pauseStatic, processAsync, processStatic } from "../index.mjs";
+import {
+  log,
+  pauseAsync,
+  pauseStatic,
+  processAsync,
+  processStatic,
+} from "../index.mjs";
 
 // Items to process
 const items = (type) => [
@@ -15,6 +21,10 @@ console.log("Log function tested successfully!");
 console.log("Testing save as file log function...");
 log(items("Test"), { saveAsJson: true, depth: 2, colors: true });
 console.log("Log function save as file successfully!");
+
+items("static")?.map((item) => {
+  return log(item, { saveAsJson: true, depth: 2, colors: true });
+});
 
 // Async version of item processing
 async function testPauseAsync() {
